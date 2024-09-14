@@ -1,0 +1,27 @@
+name: Upload cloud-resume website to S3 bucket 
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+    
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::186441610858:role/github-actions-codehuy
+        aws-region: us-east-1  
+    
+    - name: Sync to S3
+      run: aws s3 sync . s3://huy-tran.com-bucket 
+
