@@ -19,7 +19,7 @@ jQuery(document).ready(function($) {
 // view counters 
 const counter =  document.querySelector(".counter-number");
 async function viewCounter() {
-	let response = await fetch("https://odn7djr76jgiutryv3ac3bgfcu0bddeu.lambda-url.us-east-1.on.aws/");
+	let response = await fetch("https://lahdbwvkc2556rcb5wy7nktrwy0nflmu.lambda-url.us-east-1.on.aws/");
 	let data = await response.json(); 
 	counter.innerHTML = `Views: ${data}`;
 }
