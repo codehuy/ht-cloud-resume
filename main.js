@@ -16,9 +16,10 @@ jQuery(document).ready(function($) {
 
 });
 
-// view counters 
+// view counters
 const counter =  document.querySelector(".counter-number");
 async function viewCounter() {
+	// reference to lambda url
 	let response = await fetch("https://lahdbwvkc2556rcb5wy7nktrwy0nflmu.lambda-url.us-east-1.on.aws/");
 	let data = await response.json(); 
 	counter.innerHTML = `Views: ${data}`;
