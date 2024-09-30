@@ -100,30 +100,30 @@
                               <br>
                               <pre>
                                 <code>
-                                    name: S3 Website
-                                    on:
-                                      workflow_dispatch:
-                                      push:
-                                        branches:
-                                        - main
-                                    
-                                    jobs:
-                                      deploy:
-                                        runs-on: ubuntu-latest
-                                        steps:
-                                        - uses: actions/checkout@master
-                                        - uses: jakejarvis/s3-sync-action@master
-                                          with:
-                                            args: --acl private --follow-symlinks --delete
-                                          env:
-                                            AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-                                            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                                            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                                            AWS_REGION: 'us-east-1'
-                                            SOURCE_DIR: 'website'
-                                  </code>
-                                </pre>
-                              <p>This was my initial yaml setup. I set S3 bucket and access key/ids as secrets which is stored inside the Github repo. You can find this setting by going to the repo then settings > secrets and variables. </p>
+                    name: S3 Website
+                    on:
+                      workflow_dispatch:
+                      push:
+                        branches:
+                        - main
+                    
+                    jobs:
+                      deploy:
+                        runs-on: ubuntu-latest
+                        steps:
+                        - uses: actions/checkout@master
+                        - uses: jakejarvis/s3-sync-action@master
+                          with:
+                            args: --acl private --follow-symlinks --delete
+                          env:
+                            AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+                            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                            AWS_REGION: 'us-east-1'
+                            SOURCE_DIR: 'website'
+                                </code>
+                            </pre>
+                              <p>This code above was my initial yaml setup. I set S3 bucket and access key/ids as secrets which is stored inside the Github repo. You can find this setting by going to the repo then settings > secrets and variables. </p>
                               <figure><img src="assets/images/github-secrets.png"></figure>
                               <p>Afterwards , I commit the changes I’ve made through the terminal then navigate back to the repo on github.com and you can see the workflow run.  I verified everything work by going back to the AWS console and confirming the changes and different files that was push to my bucket. </p>
                               <figure><img src="assets/images/github-action-runs.png"></figure>
@@ -175,6 +175,22 @@
                               <p>Amazon Lambda is a service that lets you run code without needing to manage any servers. You just write your code, and Lambda automatically runs it whenever something triggers it, like a file being uploaded or a website button being clicked. You only pay for the time your code is running, making it very cost-efficient. It’s great for small tasks like sending emails, processing data, or managing backend logic for apps, and you don’t have to worry about scaling or maintaining servers.</p>
                               <figure><img src="assets/images/lambda.png"></figure>
                               <p>I used Amazon Lambda to interact with my DynamoDB table, enabling my code to run automatically in response to events—in this case, tracking website views. Each time the Lambda function is invoked, it increments the view counter in the DynamoDB table, updating the count seamlessly without the need for manual server management.</p>
+                              <pre>
+                                <code>
+                    import json
+                    import boto3
+                    dynamodb = boto3.resource('dynamodb')
+                    table = dynamodb.Table('resume-views')
+                    
+                    def lambda_handler(event, context):
+                        response = table.get_item(Key={'id': '1'})
+                        views = response['Item']['views']
+                        views += 1
+                        table.put_item(Item={'id': '1', 'views': views})
+                        return views
+                                </code>
+                            </pre>
+                              <p>The code above connects to my dynamodb table and update my view counts</p>
                               <figure><img src="assets/images/lambda-role.png"></figure>
                               <p>You then want to make sure your lambda function has an associated role with full dynamodb access. With this ,  everytime when the lambda gets invoked, the counter within dynamodb will increment. </p>
                               <figure><img src="assets/images/lambda-javascript.png"></figure>
