@@ -38,9 +38,6 @@ Maintaining and updating the resume website was made effortless thanks to GitHub
 
 You first start by connecting your local repo by creating a .github/workflows folder and within that folder you create a yaml file.
 
-
-
-                                
                                     name: S3 Website
                                     on:
                                       workflow_dispatch:
