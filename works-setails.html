@@ -34,7 +34,6 @@
               <!-- social -->
               <ul class="ds-social">
                 <li><a href="#" target="_blank"><i class="ri-github-fill"></i></a></li>
-                <li><a href="#" target="_blank"><i class="ri-stack-overflow-line"></i></a></li>
                 <li><a href="#" target="_blank"><i class="ri-linkedin-fill"></i></a></li>
               </ul>
               <!-- social -->
@@ -59,8 +58,9 @@
                       <div class="row justify-content-center">
                           <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8 col-xxl-8">
                               <h2>AWS Cloud Resume</h2>
-                              <p>The first step in tackling the AWS Cloud Resume Challenge is to design and develop your resume website. For this project, I chose to utilize HTML, JavaScript, and CSS to craft a visually appealing and interactive resume. Since I don't have much expertise in web development, I opt to use a template I found online. Once the website was ready, it was time to bring it to life using AWS services.</p>
-
+                              <p>If you’re like me, learn by watching/reading doesn’t really click for learning. I learned best by doing, trial by fire.  And the Cloud Resume Challenge was an awesome way to learn about AWS since I had no prior experience to it. The first step in tackling the AWS Cloud Resume Challenge is to design and develop your resume website. For this project, I chose to utilize HTML, JavaScript, and CSS to craft a visually appealing and interactive resume. Since I don't have much expertise in web development, I opt to use a template I found online from <a href="https://designstub.com">designstub.com</a></p>
+                              <figure><img src="assets/images/live-server.png"></figure>
+                              <p>Quick tip: make sure download the extension  “Live Server”  inside VS Code to easily help update/troubleshoot the website locally. It enables a live reload of your website so you can actively see the changes you made to your html and css files. Once the website was ready, it was time to bring it to life using AWS services.</p>
                               <ul>
                                 <h3>Leveraging AWS Services</h3>
                                 <li>S3</li>
@@ -68,30 +68,122 @@
                                 <li>Cloudfront</li>
                                 <li>DynamoDB</li>
                                 <li>Lambda</li>
+                                <h3>Other Services</h3>
+                                <li>Github Actions</li>
+                                <li>OpenID Connect Authentication </li>
+                                <li>Any multifactor authentication app (Microsoft Authenticator, Google Authenticator etc) </li>
                               </ul>
+                              <p>Before we begin, we want to make sure our account is set up properly and secure. After I created the account, the first thing I did was securing it with MFA so only I can access it.  You can find this in security credentials under account page. </p>
+                              <figure><img src="assets/images/2FA.png"></figure>
+                              <p>Once the account is secure , you want to create an IAM user (Identity and Access Management).  Using IAM (Identity and Access Management) roles instead of the AWS root account is crucial for security and best practices such as least priviledge principles and audit/monitoring purposes. AWS recommends using the root account only for tasks that require it, such as setting up your account. For everyday tasks, always use IAM roles or users.  </p>
+                              <p>I start by creating a user group called Admins and gave that group full access then i created a user called Captain and assign it to that group. I also attached the AdministorAccess policy as that is needed to create the various aws resources for this project. </p>
+                              <figure><img src="assets/images/iam-group-roles.png"></figure>
+                              <p>After creating the user, i also created 2FA for the user account by setting up an MFA code with the authenticator app.  I then signed into the user account and will doing all provisioning with it and not the root account , following AWS best practices. </p>
+                              <p>Before we get started on setting up the various AWS services, I had to initiate the billing alarms on cloudwatch.  You can find this by searching for cloudwatch and creating the alarms that way.  I set the alarm to notify my email for anything above $10. I seen on the internet where there was horror story of people who got charge exorbitant amount cause they left unused AWS service running or did not secure their account and it got compromised.  The billing alarms as well as the security MFA should prevent this. </p>
+                              <figure><img src="assets/images/billing-alerts.png"></figure>
+                              <br>
+                              <br>
+                              <h3>Reference</h3>
+                              <p><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-practices.html">AWS Best Practices for IAM</a></p>
+                              <br>
+                              <!--S3-->
                               <h2>Amazon S3</h2>
-                              <p>Amazon S3 (Simple Storage Service) served as the foundation for hosting my resume website. I uploaded the HTML, JavaScript, and CSS files to an S3 bucket, making them accessible to users over the internet.</p>
-                              <h2>Route 53</h2>
-                              <p>Route 53, AWS's scalable DNS web service, enabled me to register a domain name for my resume website. This allowed users to access my resume using a custom domain, adding a professional touch to the project.</p>
-                              <h2>CloudFront</h2>
-                              <p>To enhance the performance and security of my resume website, I leveraged Amazon CloudFront, AWS's content delivery network (CDN). CloudFront cached my website's content at edge locations worldwide, ensuring fast and reliable access for users across the globe.</p>
-                              <h2>DynamoDB</h2>
-                              <p>For dynamic content on my resume website, such as visitor count and feedback submissions, I integrated Amazon DynamoDB, a fully managed NoSQL database service. DynamoDB stored and retrieved data seamlessly, adding interactivity to the static resume website.</p>
-                              <h2>Lambda Function</h2>
-                              <p>To handle backend logic and dynamic content generation, I utilized AWS Lambda, a serverless compute service. I wrote Lambda functions in python to interact with DynamoDB to interact with the resume website's view counter.</p>
-                          </div>
-                      </div>
-                  </div>
-                 <figure><img src="assets/images/github-actions.png"></figure>
-                  <div class="ds-work-content-sec">
-                      <div class="row justify-content-center">
-                          <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8 col-xxl-8">
+                              <p>Lets start with Amazon S3. Amazon S3, or Simple Storage Service, is a scalable object storage service provided by Amazon Web Services (AWS). It allows users to store and retrieve any amount of data from anywhere on the web. S3 is commonly used for data backup, archival, and as a storage solution for web applications.   Amazon S3 is a storage Amazon S3 served as the foundation for hosting my resume website. I uploaded the HTML, JavaScript, and CSS files to an S3 bucket, making them accessible to users over the internet</p>
+                              <figure><img src="assets/images/s3-bucket.png"></figure>
+                              <p>Now that the files are uploaded, what happens when you want to update your site? Constantly reuploading files will be a pain so thats why CI/CD is a must for this.  </p>
+                              <br>
+                              <!--Github Actions-->
                               <h2>Automating Deployment with GitHub Actions</h2>
                               <p>Maintaining and updating the resume website was made effortless thanks to GitHub Actions. I set up continuous integration and deployment pipelines using GitHub Actions, allowing changes pushed to the GitHub repository to automatically trigger deployment to AWS services. This streamlined the development process and ensured that the resume website was always up-to-date.</p>
+                              <p>You first start by connecting your local repo by creating a .github/workflows folder and within that folder you create a yaml file. </p>
+                              <figure><img src="assets/images/github-workflows.png"></figure>
+                              <br>
+                              <pre>
+                                <code>
+                                    name: S3 Website
+                                    on:
+                                      workflow_dispatch:
+                                      push:
+                                        branches:
+                                        - main
+                                    
+                                    jobs:
+                                      deploy:
+                                        runs-on: ubuntu-latest
+                                        steps:
+                                        - uses: actions/checkout@master
+                                        - uses: jakejarvis/s3-sync-action@master
+                                          with:
+                                            args: --acl private --follow-symlinks --delete
+                                          env:
+                                            AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+                                            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                                            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                                            AWS_REGION: 'us-east-1'
+                                            SOURCE_DIR: 'website'
+                                  </code>
+                                </pre>
+                              <p>This was my initial yaml setup. I set S3 bucket and access key/ids as secrets which is stored inside the Github repo. You can find this setting by going to the repo then settings > secrets and variables. </p>
+                              <figure><img src="assets/images/github-secrets.png"></figure>
+                              <p>Afterwards , I commit the changes I’ve made through the terminal then navigate back to the repo on github.com and you can see the workflow run.  I verified everything work by going back to the AWS console and confirming the changes and different files that was push to my bucket. </p>
+                              <figure><img src="assets/images/github-action-runs.png"></figure>
+                              <p>Originally I used github secrets to store my AWS access and secret keys but even though that is more secure than hard coding the secret keys, a better approach is to utilize a federated idenity. This is where OpenID Connect comes in. </p>
+                              <h3>Reference</h3>
+                              <p><a href="https://docs.github.com/en/actions/sharing-automations/creating-workflow-templates-for-your-organization ">Github Actions Documentation</a></p>
+                              <br> 
+                              <!--OIDC-->
                               <h2>Securing with OpenID</h2>
+                              <p>OpenID Connect (OIDC) allows your GitHub Actions workflows to access resources in Amazon Web Services (AWS), without needing to store the AWS credentials as long-lived GitHub secrets.</p>
+                              <figure><img src="assets/images/oidc-identity.png"></figure>
                               <p>Security was a top priority throughout the AWS Cloud Resume Challenge. To safeguard sensitive data and restrict access to authorized users, I implemented OpenID Connect (OIDC) authentication. By integrating OIDC with AWS Identity and Access Management (IAM), I enforced secure authentication and authorization mechanisms, protecting both the website and its backend resources from unauthorized access.</p>
+                              <figure><img src="assets/images/oidc-role.png"></figure>
+                              <p>Then I created the IAM role that I associate the role with the web identity token. </p>
+                              <figure><img src="assets/images/oidc-yaml.png"></figure>
+                              <p>Afterwards I updated the yaml file with the role and deleted the embedded secrets. With that, I was able to delete the secrets within Github and push my commit through.  I verified it was working by checking the different changes i made inside the S3 bucket via the AWS consoles. </p>
+                              <h3>Reference</h3>
+                              <p><a href="https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services">Github OIDC Documentation</a></p>
+                              <!--Route 53-->
+                              <br>
+                              <h2>Route 53</h2>
+                              <p>Now that we got our bucket up with CI/CD to update the front end of the website, I had to set up a domain so people can actually reach my website. For this, I used Route 53.</p>
+                              <p>Amazon Route 53 is a scalable and highly available Domain Name System (DNS) web service provided by Amazon Web Services (AWS). It effectively translates human-friendly domain names (like www.example.com) into IP addresses (like 192.0.2.1) that computers use to identify each other on the network.</p>
+                              <p>With Route 53, i was able to register a domain name for my website.  And it was cheap , only $12/yr.   The most surprising part of this was that I was able to secure my full name for the website domain as well. Now users can just type my name (with the dash) in the browser and my website should appear. </p>
+                              <figure><img src="assets/images/route-53.png"></figure>
+                              <br>
+                              <!--Cloudfront-->
+                              <h2>CloudFront</h2>
+                              <p>Once the domain is up and running, we can move on to the next step which is Cloudfront. Cloudfront will allow us to connect our S3 bucket to our domain which allows public access.  Cloudfront  enhance the performance and security of my website.  Since its a CDN, it cachedsmy website's content at edge locations worldwide, ensuring fast and reliable access for users across the globe. Cloudfront limits access to S3 buckets and their contents to only CloudFront and the operations it performs as well as enforcing HTTPS-only access which encrypts data in traffic.</p>
+                              <figure><img src="assets/images/cloudfront-oac.png"></figure>
+                              <p>During the process of creating the CDN, its important to go with the OAC (recommended origin access control) and select your bucket. It restricts access to only Cloudfront. </p>
+                              <br>
+                              <figure><img src="assets/images/cloudfront-certificate.png"></figure>
+                              <p>You also need to request SSL certificate from the certificate manager within AWS. The SSL/TLS certificates are needed to encrypt data as well as authentication for the CDN, ensuring that users are communicating with a legiminate website.  After the SSL certificate has been created, it has to be associated with Cloudfront. </p>
+                              <br>
+                              <figure><img src="assets/images/cloudfront-s3-bucket-policy.png"></figure>
+                              <p>After the creation of it, you need to go back and copy the policy and paste into the bucket policy under permission tab within your S3 bucket. This will grant cloudfront to access the contents of your bucket. </p>
+                              <br>
+                              <figure><img src="assets/images/cloudfront-invalidation.png"></figure>
+                              <p>The last step to this is to make sure invalidate your CloudFront cache. This way any user who try to reach your website will always have the latest version. Within Cloudfront it is within the invalidation tab. I did  the wildcard /* for all paths within my bucket. </p>
+                              <br>
+                              <!--DynamoDB-->
+                              <h2>DynamoDB</h2>
+                              <p> For dynamic content on my resume website, such as visitor count,  I integrated Amazon DynamoDB, a fully managed NoSQL database service. DynamoDB stored and retrieved data seamlessly, adding interactivity to the static resume website. I created a table called resume-views then I created the table item to store the views.  After creating the table, you need to connect with a lambda function for the backend and javascript for the frontend. </p>
+                              <figure><img src="assets/images/dynamodb.png"></figure>
+                              <br>
+                              <!--Lambda-->
+                              <h2>Lambda Function</h2>
+                              <p>Amazon Lambda is a service that lets you run code without needing to manage any servers. You just write your code, and Lambda automatically runs it whenever something triggers it, like a file being uploaded or a website button being clicked. You only pay for the time your code is running, making it very cost-efficient. It’s great for small tasks like sending emails, processing data, or managing backend logic for apps, and you don’t have to worry about scaling or maintaining servers.</p>
+                              <figure><img src="assets/images/lambda.png"></figure>
+                              <p>I used Amazon Lambda to interact with my DynamoDB table, enabling my code to run automatically in response to events—in this case, tracking website views. Each time the Lambda function is invoked, it increments the view counter in the DynamoDB table, updating the count seamlessly without the need for manual server management.</p>
+                              <figure><img src="assets/images/lambda-role.png"></figure>
+                              <p>You then want to make sure your lambda function has an associated role with full dynamodb access. With this ,  everytime when the lambda gets invoked, the counter within dynamodb will increment. </p>
+                              <figure><img src="assets/images/lambda-javascript.png"></figure>
+                              <p>Once the backend was connected, it was time to connect it to the frontend. I made main.js file within my codebase and use following code for the viewcounter.  It connects via the function URL of the lambda. </p>
+                              <p>Side note: If you have any issues with the lambda count not updating on the frontend, make sure to change edit and allow headers in the lambda function. It took my about two hours to troubleshoot this part as there was an issue with the front end. Within the Function URL of the lambda , you want to edit it to allow headers. <a href="https://stackoverflow.com/questions/73360269/aws-cloudfront-on-lambda-function-via-the-function-url-url-returning-403-fobidde">This stack overflow post helps explain why this is needed.</a></p>
+                              <p>Now that its finished, everytime you reload the website, the lambda function should be invoked and it will display it on the frontend as well. </p>
+                              <!--Conclusion-->
                               <h2>Conclusion</h2>
-                              <p>The AWS Cloud Resume Challenge provided a hands-on opportunity to showcase my skills in cloud computing and web development. By leveraging various AWS services and best practices, I successfully built and deployed a dynamic resume website that not only highlights my professional achievements but also demonstrates my proficiency in cloud technologies.</p>
+                              <p>The AWS Cloud Resume Challenge offered a practical way to demonstrate my skills in cloud computing and web development. By utilizing a range of AWS services and following best practices, I built and deployed a dynamic resume website that showcases both my professional accomplishments and my expertise in cloud technologies.</p>
                           </div>
                       </div>
                   </div>
