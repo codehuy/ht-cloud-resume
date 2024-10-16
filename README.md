@@ -40,5 +40,5 @@ For dynamic content on my resume website, such as visitor count, I integrated Am
 To handle backend logic and dynamic content generation, I utilized AWS Lambda, a serverless compute service. I wrote Lambda functions in python to interact with DynamoDB to interact with the resume website's view counter.
 
 # Conclusion
-The AWS Cloud Resume Challenge provided a hands-on opportunity to showcase my skills in cloud computing and web development. By leveraging various AWS services and best practices, I successfully built and deployed a dynamic resume website that not only highlights my professional achievements but also demonstrates my proficiency in cloud technologies.
+The AWS Cloud Resume Challenge provided a hands-on opportunity to learn and showcase my skills in cloud computing. By leveraging various AWS services and best practices, I successfully built and deployed a dynamic resume website that not only highlights my professional achievements but also demonstrates my proficiency in cloud technologies.
 

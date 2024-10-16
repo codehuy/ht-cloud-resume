@@ -93,7 +93,7 @@
                               <p>Now that the files are uploaded, what happens when you want to update your site? Constantly reuploading files will be a pain so thats why CI/CD is a must for this.  </p>
                               <br>
                               <!--Github Actions-->
-                              <h2>Automating Deployment with GitHub Actions</h2>
+                              <h2>CI/CD with GitHub Actions</h2>
                               <p>Maintaining and updating the resume website was made effortless thanks to GitHub Actions. I set up continuous integration and deployment pipelines using GitHub Actions, allowing changes pushed to the GitHub repository to automatically trigger deployment to AWS services. This streamlined the development process and ensured that the resume website was always up-to-date.</p>
                               <p>You first start by connecting your local repo by creating a .github/workflows folder and within that folder you create a yaml file. </p>
                               <figure><img src="assets/images/github-workflows.png"></figure>
@@ -195,7 +195,7 @@
                               <p>You then want to make sure your lambda function has an associated role with full dynamodb access. With this ,  everytime when the lambda gets invoked, the counter within dynamodb will increment. </p>
                               <figure><img src="assets/images/lambda-javascript.png"></figure>
                               <p>Once the backend was connected, it was time to connect it to the frontend. I made main.js file within my codebase and use following code for the viewcounter.  It connects via the function URL of the lambda. </p>
-                              <p>Side note: If you have any issues with the lambda count not updating on the frontend, make sure to change edit and allow headers in the lambda function. It took my about two hours to troubleshoot this part as there was an issue with the front end. Within the Function URL of the lambda , you want to edit it to allow headers. <a href="https://stackoverflow.com/questions/73360269/aws-cloudfront-on-lambda-function-via-the-function-url-url-returning-403-fobidde">This stack overflow post helps explain why this is needed.</a></p>
+                              <p>Side note: If you have any issues with the lambda count not updating on the frontend, make sure to change edit and allow headers in the lambda function. Within the Function URL of the lambda , you want to edit it to allow headers. <a href="https://stackoverflow.com/questions/73360269/aws-cloudfront-on-lambda-function-via-the-function-url-url-returning-403-fobidde">This stack overflow post helps explain why this is needed.</a></p>
                               <p>Now that its finished, everytime you reload the website, the lambda function should be invoked and it will display it on the frontend as well. </p>
                               <!--Conclusion-->
                               <h2>Conclusion</h2>
@@ -213,7 +213,7 @@
    <footer class="ds-footer text-center">
      <div class="container">
         <section>
-          <span>Stay in touch</span>
+          <span></span>
           <h4>Ready to talk?</h4>
           <p>Feel free to contact me</p>
           <a href="mailto:test@test.com" class="ds-button">Lets Talk</a>
