@@ -19,9 +19,10 @@ jobs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
-        role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
+        role-to-assume: ${{ secrets.ROLE_TO_ASSUME }} 
         aws-region: us-east-1  
     
     - name: Sync to S3
-      run: aws s3 sync . s3://huy-tran.com-bucket 
+      run: aws s3 sync ./ s3://${{ secrets.S3_BUCKET }} --delete
+
 
