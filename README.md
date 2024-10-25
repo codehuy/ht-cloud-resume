@@ -1,7 +1,7 @@
 # AWS CLOUD RESUME CHALLENGE
 Building My Cloud Resume Website on AWS: A Journey Through Console Configurations and CI/CD
 
-Welcome to my AWS Cloud Resume Project! This project was a hands-on dive into AWS Console, OpenID Connect (OIDC), and CI/CD using GitHub Actions. I wanted to create a resume website that is secure, globally distributed, and fully automated using cloud services and Infrastructure as Code (IaC) principles.
+Welcome to my AWS Cloud Resume Project! This project was a hands-on dive into AWS Console, OpenID Connect (OIDC), and CI/CD using GitHub Actions. The objective of this project is for me to learn more about AWS. I wanted to create a resume website that is secure, globally distributed, and fully automated using cloud services and Infrastructure as Code (IaC) principles.
 
 Here’s how I approached each part of the project, from S3 hosting to CI/CD deployment automation.
 
@@ -49,13 +49,13 @@ Step 4: Automating with GitHub Actions and OpenID Connect (OIDC)
 
 The CI/CD pipeline was crucial for this project’s maintainability. I set up GitHub Actions to automatically deploy updates whenever changes were committed to the GitHub repository. With OIDC as the authentication method, I avoided using long-term access keys, making the connection between GitHub and AWS both secure and straightforward.
 
-How It Works:
+# How It Works:
 
 	1.	GitHub Actions triggers on each commit to the main branch.
 	2.	OpenID Connect allows GitHub to assume an AWS role, securely connecting GitHub Actions with AWS without requiring access keys.
 	3.	The workflow syncs the latest files to the S3 bucket and updates the Lambda function.
 
-GitHub Actions Workflow Example
+# GitHub Actions Workflow Example
 ```
 name: Deploy Resume Project
 
@@ -92,29 +92,30 @@ jobs:
 
 ``` 
 
-Lessons Learned
+# Lessons Learned
 
 Using OpenID Connect (OIDC) for Secure CI/CD
 
 OIDC was a game-changer, eliminating the need for long-term AWS keys. With GitHub Actions and AWS IAM role configurations, the pipeline became both secure and easy to manage.
 
-Going Serverless with AWS
+# Going Serverless with AWS
 
-Setting up Lambda and DynamoDB as serverless services made the view counter implementation both scalable and cost-effective. I learned a lot about CORS and API Gateway integration with serverless applications.
+Setting up Lambda and DynamoDB as serverless services made the view counter implementation both scalable and cost-effective. I learned a lot about CORS and lambda integration with serverless applications.
 
-Hands-on with AWS Console
+# Hands-on with AWS Console
 
 Configuring each component through the AWS Console gave me a deeper understanding of each service’s settings and nuances. The Console approach provided great insight into managing configurations visually and how each part fits together.
 
-Future Enhancements
+# Future Enhancements
 
 I’m excited to build on this project and have a few ideas for improvements:
 
 	•	Analytics: Adding more detailed analytics, such as tracking unique visitors.
 	•	Error Logging: Improving Lambda logging for better debugging and error tracking.
 	•	Frontend Update: Refreshing the UI with a more dynamic design.
-
-Conclusion
+    •	Infrastructure as Code: Implementing IaC / Terraform for better automation and less ClickOps
+    
+# Conclusion
 
 Building this resume website has been an excellent learning experience, combining cloud infrastructure, serverless computing, and CI/CD automation. I now have a resume that not only shows my skills but was also built to demonstrate them in action.
 
