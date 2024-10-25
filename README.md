@@ -38,12 +38,12 @@ Step 3: Creating a View Counter with DynamoDB and Lambda
 
 I wanted a counter to track the number of visitors to my site, and DynamoDB was ideal for this. It’s fully managed, serverless, and scales as needed.
 
-Then came AWS Lambda to automate the count. Each time someone visits the site, Lambda increments the view counter stored in DynamoDB. Here’s how I set it up:
+Then came AWS Lambda to handle the view counter. Each time the site is loaded, Lambda updates the view count stored in DynamoDB. Here’s how I set it up:
 
-	1.	Created a Lambda function to handle the logic for updating the count.
-	2.	Configured API Gateway to provide an endpoint for the front end to trigger Lambda.
+	1.	Created a Lambda function to handle the logic for incrementing and retrieving the count from DynamoDB.
+	2.	Configured the Lambda function to be triggered by the frontend securely.
 
-Challenge: Managing cross-origin resource sharing (CORS) in API Gateway required careful configuration. Adding custom headers ensured the frontend could securely access the view counter data without issues.
+Challenge: Setting up cross-origin resource sharing (CORS) required careful configuration. By adding custom headers, I ensured secure and seamless access for the frontend to interact with the view counter data.
 
 Step 4: Automating with GitHub Actions and OpenID Connect (OIDC)
 
@@ -113,7 +113,7 @@ I’m excited to build on this project and have a few ideas for improvements:
 	•	Analytics: Adding more detailed analytics, such as tracking unique visitors.
 	•	Error Logging: Improving Lambda logging for better debugging and error tracking.
 	•	Frontend Update: Refreshing the UI with a more dynamic design.
-    •	Infrastructure as Code: Implementing IaC / Terraform for better automation and less ClickOps
+  •	Infrastructure as Code: Implementing IaC / Terraform for better automation and less ClickOps
     
 # Conclusion
 
